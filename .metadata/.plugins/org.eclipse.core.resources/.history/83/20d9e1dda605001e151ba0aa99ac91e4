@@ -1,0 +1,25 @@
+package com.myweb.www;
+
+import javax.inject.Inject;
+
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("file:src/main/webapp/WEV-INF/spring/root-context.xml")
+public class BoardTest {
+
+	@Inject
+	private BaordDAO bdao;
+	@Test
+	public void insertBoard() {
+		log.info("Test insert in");
+		BoardVO bvo = new BoardVO();
+		bvo.setTitle("Test Title");
+		bvo.setContent("Test Content");
+		bvo.setWriter("tester");
+		
+		bdao.insert(bvo);
+	}
+}

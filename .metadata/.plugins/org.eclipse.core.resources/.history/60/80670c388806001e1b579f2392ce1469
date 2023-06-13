@@ -1,0 +1,53 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<form action="/board/modify?bno=${board.bno}" method="get">
+		<input type="hidden" name="bno" value="${board.bno}">
+		 writer : ${board.writer}<br><br> 
+		 title : ${board.title}<br> <br>
+		content : ${board.content}<br><br> 
+		reg_date : ${board.reg_date}<br><br> 
+		<a href="/board/list"><button type="button">목록으로</button></a>
+		<c:if test="${ses.id eq board.writer}">
+			<a href="/board/modify?bno=${board.bno}"><button type="button">수정</button></a>
+			<a href="/board/delete?bno=${board.bno}"><button type="button">삭제</button></a>
+			<br>
+		</c:if>
+		<hr>
+	</form>
+	
+	<!-- 댓글 작성 라인 -->
+	<div>
+		<span id="cmWriter"> ${board.writer }</span>
+		<input type="text" id="cmtText" placeholder="Test Add Comment">
+		<button type="button" id="cmtPostBtn">Post</button>
+	</div>
+	<!-- 댓글 표시 라인 -->
+	<div>
+		<!-- li하나의 댓글 객체 -->
+		<ul id="cmtListArea">
+			<li>
+				<div>
+				<div>Writer</div>
+				Content for Comment
+				</div>
+				<span>mod_date</span>
+			</li>
+		</ul>
+	</div>
+	<script type="text/javascript">
+	const bnoVal = '<c:out value="${board.bno}" />';
+	console.log("bno : "+bnoVal);
+	</script>
+	<script type="text/javascript" src="/resources/js/boardcomment.js"></script>
+	
+</body>
+</html>
+

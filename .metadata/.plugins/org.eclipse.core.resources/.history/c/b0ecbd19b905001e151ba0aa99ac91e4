@@ -1,0 +1,74 @@
+package com.myweb.www.service;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.springframework.stereotype.Service;
+
+import com.myweb.www.domain.BoardVO;
+import com.myweb.www.domain.UserVO;
+import com.myweb.www.repository.BoardDAO;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Service
+public class BoardServiceImpl implements BoardService{
+   
+   @Inject
+   private BoardDAO bdao;
+
+   @Override
+   public int register(BoardVO bvo) {
+      return bdao.insert(bvo);
+   }
+
+   @Override
+   public List<BoardVO> getList() {
+      return bdao.getList();
+   }
+
+   @Override
+   public BoardVO getDetail(int bno) {
+//      int isOk = bdao.readCount(bno);
+//      if(isOk > 0) {
+//         log.info("read_count 증가 완료");
+//      } 
+      
+      // detail에서 detail과 modify를 두 번 들어가기 때문에
+      //따로 uri를 빼줘서 detail일 때만 count되도록 하는 것!!
+      //밑에 readCount에서 하기 때문에 이 위에는 주석처리함
+      return bdao.getDetail(bno);
+   }
+
+//   @Override
+//   public int modify(BoardVO bvo) {
+//      return bdao.modify(bvo);
+//   }
+
+   @Override
+   public int readCount(int bno) {
+      return bdao.readCount(bno);
+   }
+
+
+   @Override
+   public int modify(BoardVO bvo, UserVO user) {
+      BoardVO tmpBoard = bdao.getDetail(bvo.getBno()); //해당 글의 게시글 호출
+      if(user == null || !user.getId().equals(tmpBoard.getWriter())){
+         return 0;
+      }
+      return bdao.updateBoard(bvo);
+   }
+
+   @Override
+   public int remove(int bno, UserVO user) {
+      BoardVO tmpBoard = bdao.getDetail(bno); //해당 글의 게시글 호출
+      if(user == null || !user.getId().equals(tmpBoard.getWriter())){
+         return 0;
+      }
+      return bdao.deleteBoard(bno);
+   }
+   
+}

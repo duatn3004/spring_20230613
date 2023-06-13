@@ -1,0 +1,27 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<form action="/board/modify?bno=${board.bno}" method="get">
+		<input type="hidden" name="bno" value="${board.bno}">
+		 writer : ${board.writer}<br><br> 
+		 title : ${board.title}<br> <br>
+		content : ${board.content}<br><br> 
+		reg_date : ${board.reg_date}<br><br> 
+		<a href="/board/list"><button type="button">목록으로</button></a>
+		<c:if test="${ses.id eq board.writer}">
+			<button>수정하기</button>
+			<a href="/board/delete?bno=${board.bno}"><button type="button">삭제</button></a>
+			<br>
+		</c:if>
+		<hr>
+	</form>
+
+</body>
+</html>

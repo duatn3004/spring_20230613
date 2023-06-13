@@ -1,0 +1,31 @@
+package com.myweb.www.domain;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@ToString
+@Getter
+@Setter
+public class PagingVO {
+	
+	private int pageNO;// 현재 화면에 출력도니 페이지네이션 번호
+	private int qty; //한 페이지당 보여지는 게시글 수 (10개)
+	
+	//검색 관련 멤버변수
+	private String type;
+	private String keyword;
+	
+	
+	public PagingVO() {
+		this(1, 10);
+	}
+	public PagingVO(int pageNO, int qty) {
+		this.pageNO = pageNO;
+		this.qty = qty;
+	}
+	public int getPageStart() { //DB상 limit의 시작값을 구하는 메서드
+		// limit의 시작값은 0부터 10개	limit 0,10
+		return (this.pageNO-1)*qty;
+	}
+}
